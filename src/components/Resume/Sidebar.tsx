@@ -58,6 +58,7 @@ function SidebarPhoto({ photo, name, emoji }: { photo: string; name: string; emo
             src={photo}
             alt={`Profile photo of ${name}`}
             className="object-cover w-full h-full"
+            loading="lazy"
             onError={() => setHasError(true)}
           />
         </div>

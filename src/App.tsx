@@ -1,13 +1,23 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { LanguageProvider } from '@/lib/i18n'
 import { ThemeProvider, useTheme } from '@/lib/theme'
 import { Resume } from '@/components/Resume'
 import { presets } from '@/data/presets'
 import type { PresetName } from '@/data/types'
+import { resumeConfig } from '@/data/resume-config'
 
 const Agentation = lazy(() =>
   import('agentation').then((m) => ({ default: m.Agentation }))
 )
+
+function SeoHead() {
+  useEffect(() => {
+    const { title, description } = resumeConfig.seo
+    document.title = title
+    document.querySelector('meta[name="description"]')?.setAttribute('content', description)
+  }, [])
+  return null
+}
 
 function ThemeVarsInjector({ children }: { children: React.ReactNode }) {
   const { colors } = useTheme()
@@ -66,6 +76,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
+        <SeoHead />
         <ThemeVarsInjector>
           <Resume />
         </ThemeVarsInjector>
